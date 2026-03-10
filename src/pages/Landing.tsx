@@ -151,7 +151,7 @@ const Landing = () => {
 
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[57px] z-40 bg-background/98 backdrop-blur-sm animate-fade-in">
+        <div className="md:hidden fixed inset-0 top-[57px] z-40 bg-background animate-fade-in">
           <nav className="flex flex-col p-6 space-y-1">
             {[
               { href: "#about", label: "About" },
