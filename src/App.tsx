@@ -14,6 +14,7 @@ import Workspace from "./pages/Workspace";
 import Overview from "./pages/Overview";
 import Settings from "./pages/Settings";
 import Billing from "./pages/Billing";
+import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
