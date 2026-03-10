@@ -13,9 +13,11 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Shield, ArrowLeft, Search, Trash2, Mail, RefreshCw, Inbox } from "lucide-react";
+import { Shield, ArrowLeft, Search, Trash2, Mail, RefreshCw, Inbox, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
+
+const PAGE_SIZE = 10;
 
 interface ContactMessage {
   id: string;
