@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
 import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,42 @@ const TEAM = [
   { name: "Daniel Reeves", role: "Head of AI", desc: "ML researcher specializing in NLP for security applications." },
 ];
 
+function useScrollReveal(): RefObject<HTMLDivElement | null> {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
 const Landing = () => {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
+
+  const heroRef = useScrollReveal();
+  const featuresRef = useScrollReveal();
+  const testimonialsRef = useScrollReveal();
+  const aboutRef = useScrollReveal();
+  const contactRef = useScrollReveal();
+  const policyRef = useScrollReveal();
+  const ctaRef = useScrollReveal();
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +77,7 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col scroll-smooth">
       {/* Nav — larger touch targets */}
       <header className="border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-50">
         <Link to="/" className="flex items-center gap-2 min-h-[44px] min-w-[44px]">
@@ -79,7 +111,7 @@ const Landing = () => {
       </header>
 
       {/* Hero — focused, clear hierarchy, single CTA emphasis */}
-      <section className="flex flex-col items-center justify-center px-4 sm:px-6 text-center max-w-3xl mx-auto py-16 sm:py-24">
+      <section ref={heroRef} className="flex flex-col items-center justify-center px-4 sm:px-6 text-center max-w-3xl mx-auto py-16 sm:py-24">
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground mb-8">
           <Zap className="h-4 w-4 text-primary" />
           AI-Powered Cyber Intelligence
@@ -136,7 +168,7 @@ const Landing = () => {
       </section>
 
       {/* Testimonials — cleaner cards */}
-      <section id="testimonials" className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
+      <section id="testimonials" ref={testimonialsRef} className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-sans text-2xl sm:text-3xl font-bold text-foreground mb-3">Trusted by Security Teams</h2>
@@ -162,7 +194,7 @@ const Landing = () => {
       </section>
 
       {/* About Us */}
-      <section id="about" className="px-4 sm:px-6 py-16 sm:py-20">
+      <section id="about" ref={aboutRef} className="px-4 sm:px-6 py-16 sm:py-20">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
             <div>
@@ -205,7 +237,7 @@ const Landing = () => {
       </section>
 
       {/* Contact Us — larger inputs */}
-      <section id="contact" className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
+      <section id="contact" ref={contactRef} className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
             <h2 className="font-sans text-2xl sm:text-3xl font-bold text-foreground mb-3">Contact Us</h2>
@@ -265,7 +297,7 @@ const Landing = () => {
       </section>
 
       {/* Privacy Policy */}
-      <section id="policy" className="px-4 sm:px-6 py-16 sm:py-20">
+      <section id="policy" ref={policyRef} className="px-4 sm:px-6 py-16 sm:py-20">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
             <FileText className="h-6 w-6 text-primary" />
@@ -295,7 +327,7 @@ const Landing = () => {
       </section>
 
       {/* CTA Banner */}
-      <section className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
+      <section ref={ctaRef} className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-sans text-2xl sm:text-3xl font-bold text-foreground mb-4">
             Ready to accelerate your threat intelligence?
