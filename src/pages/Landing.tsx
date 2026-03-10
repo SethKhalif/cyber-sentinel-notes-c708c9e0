@@ -295,8 +295,8 @@ const Landing = () => {
                   required
                   className="min-h-[140px] resize-none text-base"
                 />
-                <Button type="submit" size="lg" className="min-h-[48px] w-full sm:w-auto px-8 text-base">
-                  <Send className="h-4 w-4 mr-2" /> Send Message
+                <Button type="submit" size="lg" disabled={submitting} className="min-h-[48px] w-full sm:w-auto px-8 text-base">
+                  <Send className="h-4 w-4 mr-2" /> {submitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>
