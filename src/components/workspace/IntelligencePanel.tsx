@@ -24,29 +24,33 @@ const ThreatLevelBadge: React.FC<{ level: string }> = ({ level }) => {
 const IntelligencePanel: React.FC<Props> = ({ analysis, analyzing, mode, noteId }) => {
   const [cveResults, setCveResults] = useState<CveResult[]>([]);
 
-  // Load CVE results for the panel when in CVE mode
+  const loadCveResults = () => {
+    supabase
+      .from("cve_analyses")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(5)
+      .then(({ data }) => {
+        if (data) {
+          setCveResults(
+            data.map((d) => ({
+              cve_id: d.cve_id,
+              summary: d.summary || "",
+              exploitation_likelihood: d.exploitation_likelihood || "",
+              affected_systems: d.affected_systems || "",
+              mitigation: d.mitigation || "",
+            }))
+          );
+        }
+      });
+  };
+
+  // Load CVE results when in CVE mode or when analyzing finishes
   useEffect(() => {
     if (mode === "cve") {
-      supabase
-        .from("cve_analyses")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(5)
-        .then(({ data }) => {
-          if (data) {
-            setCveResults(
-              data.map((d) => ({
-                cve_id: d.cve_id,
-                summary: d.summary || "",
-                exploitation_likelihood: d.exploitation_likelihood || "",
-                affected_systems: d.affected_systems || "",
-                mitigation: d.mitigation || "",
-              }))
-            );
-          }
-        });
+      loadCveResults();
     }
-  }, [mode]);
+  }, [mode, analyzing]);
 
   if (mode === "cve") {
     return (
