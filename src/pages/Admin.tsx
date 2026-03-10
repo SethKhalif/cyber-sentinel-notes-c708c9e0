@@ -86,6 +86,8 @@ const Admin = () => {
       m.message.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
   if (isAdmin === null) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
