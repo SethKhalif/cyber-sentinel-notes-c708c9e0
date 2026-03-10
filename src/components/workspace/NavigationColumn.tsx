@@ -22,11 +22,12 @@ interface Props {
   isLoading: boolean;
   mode: "notes" | "cve";
   onModeChange: (m: "notes" | "cve") => void;
+  searchInputRef?: React.RefObject<HTMLInputElement>;
 }
 
 const NavigationColumn: React.FC<Props> = ({
   notes, selectedNoteId, onSelectNote, onCreateNote, onDeleteNote,
-  searchQuery, onSearchChange, isLoading, mode, onModeChange,
+  searchQuery, onSearchChange, isLoading, mode, onModeChange, searchInputRef,
 }) => {
   const { signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
