@@ -44,6 +44,7 @@ const AppRoutes = () => (
     <Route path="/overview" element={<ProtectedRoute><Overview /></ProtectedRoute>} />
     <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
     <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
+    <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
