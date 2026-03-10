@@ -3,7 +3,9 @@ import { ThreatAnalysis } from "@/hooks/useThreatAnalysis";
 import { useCveAnalysis, CveResult } from "@/hooks/useCveAnalysis";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
-import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench } from "lucide-react";
+import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench, Download, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exportCveAsMarkdown, exportCveAsPdf } from "@/lib/exportCve";
 
 interface Props {
   analysis: ThreatAnalysis | null;
