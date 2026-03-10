@@ -297,7 +297,7 @@ const Landing = () => {
       </section>
 
       {/* Privacy Policy */}
-      <section id="policy" className="px-4 sm:px-6 py-16 sm:py-20">
+      <section id="policy" ref={policyRef} className="px-4 sm:px-6 py-16 sm:py-20">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
             <FileText className="h-6 w-6 text-primary" />
