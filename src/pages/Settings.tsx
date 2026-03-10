@@ -85,7 +85,9 @@ const Settings = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-foreground">Current plan: <span className="font-bold text-primary">{plan.toUpperCase()}</span></p>
-            <p className="text-xs text-muted-foreground">Stripe billing integration coming soon.</p>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/billing">Manage Billing</Link>
+            </Button>
           </CardContent>
         </Card>
 
