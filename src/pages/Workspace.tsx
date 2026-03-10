@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNotes, Note } from "@/hooks/useNotes";
 import { useThreatAnalysis, ThreatAnalysis } from "@/hooks/useThreatAnalysis";
 import { useSubscription } from "@/contexts/SubscriptionContext";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { PLANS } from "@/lib/plans";
 import NavigationColumn from "@/components/workspace/NavigationColumn";
 import EditorColumn from "@/components/workspace/EditorColumn";
