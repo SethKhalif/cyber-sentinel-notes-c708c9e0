@@ -135,7 +135,7 @@ const Admin = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Messages</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-foreground">{messages.length}</p>
+              <p className="text-3xl font-bold text-foreground">{totalCount}</p>
             </CardContent>
           </Card>
           <Card>
