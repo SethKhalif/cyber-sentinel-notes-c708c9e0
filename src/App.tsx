@@ -14,6 +14,7 @@ import Workspace from "./pages/Workspace";
 import Overview from "./pages/Overview";
 import Settings from "./pages/Settings";
 import Billing from "./pages/Billing";
+import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const AppRoutes = () => (
     <Route path="/overview" element={<ProtectedRoute><Overview /></ProtectedRoute>} />
     <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
     <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
+    <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
