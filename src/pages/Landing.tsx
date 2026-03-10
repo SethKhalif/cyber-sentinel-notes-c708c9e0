@@ -69,11 +69,11 @@ const Landing = () => {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="lg" className="min-h-[44px] min-w-[44px] text-base" asChild>
+          <Button variant="ghost" size="sm" className="min-h-[44px] min-w-[44px] text-sm sm:text-base sm:size-default" asChild>
             <Link to="/login">Login</Link>
           </Button>
-          <Button size="lg" className="min-h-[44px] min-w-[44px] text-base" asChild>
-            <Link to="/signup">Get Started</Link>
+          <Button size="sm" className="min-h-[44px] min-w-[44px] text-sm sm:text-base sm:size-default" asChild>
+            <Link to="/signup"><span className="hidden sm:inline">Get Started</span><span className="sm:hidden">Start</span></Link>
           </Button>
         </div>
       </header>
