@@ -49,14 +49,18 @@ const Admin = () => {
   // Fetch messages
   const fetchMessages = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const from = page * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    const { data, error, count } = await supabase
       .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
     if (error) {
       toast.error("Failed to load messages");
     } else {
       setMessages(data || []);
+      setTotalCount(count ?? 0);
     }
     setLoading(false);
   };
