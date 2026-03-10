@@ -29,15 +29,21 @@ const NavigationColumn: React.FC<Props> = ({
   searchQuery, onSearchChange, isLoading, mode, onModeChange,
 }) => {
   const { signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   return (
     <div className="w-60 min-w-[240px] border-r border-border flex flex-col bg-background">
       {/* Header */}
       <div className="p-4 border-b border-border">
-        <div className="flex items-center gap-2 mb-4">
-          <Shield className="h-5 w-5 text-primary" />
-          <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-primary" />
+            <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
+          </div>
+          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={toggleTheme} title="Toggle theme">
+            {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+          </Button>
         </div>
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
