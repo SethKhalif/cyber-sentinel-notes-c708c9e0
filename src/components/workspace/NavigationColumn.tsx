@@ -118,6 +118,9 @@ const NavigationColumn: React.FC<Props> = ({
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
           <Link to="/settings"><Settings className="h-3 w-3 mr-2" /> Settings</Link>
         </Button>
+        <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
+          <Link to="/billing"><CreditCard className="h-3 w-3 mr-2" /> Billing</Link>
+        </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7 text-muted-foreground" onClick={() => { signOut(); navigate("/"); }}>
           <LogOut className="h-3 w-3 mr-2" /> Sign Out
         </Button>
