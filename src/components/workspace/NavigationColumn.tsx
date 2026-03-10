@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/hooks/useTheme";
 import { Note } from "@/hooks/useNotes";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut, CreditCard, Users,
+  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut, CreditCard, Users, Sun, Moon,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
