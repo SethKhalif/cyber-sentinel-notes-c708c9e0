@@ -3,7 +3,9 @@ import { ThreatAnalysis } from "@/hooks/useThreatAnalysis";
 import { useCveAnalysis, CveResult } from "@/hooks/useCveAnalysis";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
-import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench } from "lucide-react";
+import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench, Download, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exportCveAsMarkdown, exportCveAsPdf } from "@/lib/exportCve";
 
 interface Props {
   analysis: ThreatAnalysis | null;
@@ -64,7 +66,17 @@ const IntelligencePanel: React.FC<Props> = ({ analysis, analyzing, mode, noteId 
           ) : (
             cveResults.map((cve, i) => (
               <div key={i} className="border border-border rounded p-3 space-y-2">
-                <p className="font-mono text-xs font-bold text-primary">{cve.cve_id}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-xs font-bold text-primary">{cve.cve_id}</p>
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="Export as Markdown" onClick={() => exportCveAsMarkdown(cve)}>
+                      <FileText className="h-3 w-3" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="Export as PDF" onClick={() => exportCveAsPdf(cve)}>
+                      <Download className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
                 <p className="text-xs text-foreground">{cve.summary}</p>
                 <div className="space-y-1 text-[10px]">
                   <p><span className="text-muted-foreground">Exploitation:</span> {cve.exploitation_likelihood}</p>
