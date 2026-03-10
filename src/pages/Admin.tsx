@@ -67,7 +67,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (isAdmin) fetchMessages();
-  }, [isAdmin]);
+  }, [isAdmin, page]);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("contact_messages").delete().eq("id", id);
