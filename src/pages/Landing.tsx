@@ -62,8 +62,6 @@ const Landing = () => {
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactMessage, setContactMessage] = useState("");
 
   const heroRef = useScrollReveal();
   const featuresRef = useScrollReveal();
