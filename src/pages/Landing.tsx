@@ -45,7 +45,7 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col scroll-smooth">
       {/* Nav — larger touch targets */}
       <header className="border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-50">
         <Link to="/" className="flex items-center gap-2 min-h-[44px] min-w-[44px]">
