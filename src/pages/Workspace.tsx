@@ -19,6 +19,13 @@ const Workspace = () => {
   const [currentAnalysis, setCurrentAnalysis] = useState<ThreatAnalysis | null>(null);
   const [mode, setMode] = useState<"notes" | "cve">("notes");
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useKeyboardShortcuts({
+    onCreateNote: () => handleCreateNote(),
+    onToggleMode: () => setMode((m) => (m === "notes" ? "cve" : "notes")),
+    onSearch: () => searchInputRef.current?.focus(),
+  });
 
   const selectedNote = notes.find((n) => n.id === selectedNoteId) ?? null;
 
