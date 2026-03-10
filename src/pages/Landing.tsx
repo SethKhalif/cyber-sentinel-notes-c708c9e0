@@ -111,7 +111,7 @@ const Landing = () => {
       </header>
 
       {/* Hero — focused, clear hierarchy, single CTA emphasis */}
-      <section className="flex flex-col items-center justify-center px-4 sm:px-6 text-center max-w-3xl mx-auto py-16 sm:py-24">
+      <section ref={heroRef} className="flex flex-col items-center justify-center px-4 sm:px-6 text-center max-w-3xl mx-auto py-16 sm:py-24">
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm text-muted-foreground mb-8">
           <Zap className="h-4 w-4 text-primary" />
           AI-Powered Cyber Intelligence
