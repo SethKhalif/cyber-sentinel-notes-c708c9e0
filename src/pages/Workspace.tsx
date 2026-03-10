@@ -104,6 +104,8 @@ const Workspace = () => {
         isLoading={isLoading}
         mode={mode}
         onModeChange={setMode}
+        searchInputRef={searchInputRef}
+      />
       />
       <EditorColumn
         note={selectedNote}
