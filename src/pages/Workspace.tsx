@@ -8,8 +8,6 @@ import NavigationColumn from "@/components/workspace/NavigationColumn";
 import EditorColumn from "@/components/workspace/EditorColumn";
 import IntelligencePanel from "@/components/workspace/IntelligencePanel";
 import { toast } from "sonner";
-import EditorColumn from "@/components/workspace/EditorColumn";
-import IntelligencePanel from "@/components/workspace/IntelligencePanel";
 
 const Workspace = () => {
   const { user } = useAuth();
