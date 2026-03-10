@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight } from "lucide-react";
+import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -62,6 +62,7 @@ const Landing = () => {
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const heroRef = useScrollReveal();
   const featuresRef = useScrollReveal();
@@ -109,6 +110,8 @@ const Landing = () => {
           <Shield className="h-7 w-7 text-primary" />
           <span className="font-sans font-bold text-lg text-foreground">Vistahand AI</span>
         </Link>
+
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1 text-sm text-muted-foreground">
           {[
             { href: "#about", label: "About" },
@@ -125,15 +128,57 @@ const Landing = () => {
             </a>
           ))}
         </nav>
+
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="min-h-[44px] min-w-[44px] text-sm sm:text-base sm:size-default" asChild>
+          <Button variant="ghost" size="sm" className="hidden sm:inline-flex min-h-[44px] min-w-[44px] text-sm sm:text-base" asChild>
             <Link to="/login">Login</Link>
           </Button>
-          <Button size="sm" className="min-h-[44px] min-w-[44px] text-sm sm:text-base sm:size-default" asChild>
-            <Link to="/signup"><span className="hidden sm:inline">Get Started</span><span className="sm:hidden">Start</span></Link>
+          <Button size="sm" className="hidden sm:inline-flex min-h-[44px] min-w-[44px] text-sm sm:text-base" asChild>
+            <Link to="/signup">Get Started</Link>
+          </Button>
+          {/* Mobile hamburger */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="md:hidden min-h-[44px] min-w-[44px] p-0"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </header>
+
+      {/* Mobile menu overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-[57px] z-40 bg-background/98 backdrop-blur-sm animate-fade-in">
+          <nav className="flex flex-col p-6 space-y-1">
+            {[
+              { href: "#about", label: "About" },
+              { href: "#testimonials", label: "Testimonials" },
+              { href: "#contact", label: "Contact" },
+              { href: "#policy", label: "Policy" },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-4 py-4 min-h-[48px] flex items-center rounded-lg text-base text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+            <div className="border-t border-border pt-4 mt-4 space-y-2">
+              <Button variant="outline" size="lg" className="w-full min-h-[48px] text-base" asChild>
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+              </Button>
+              <Button size="lg" className="w-full min-h-[48px] text-base" asChild>
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+              </Button>
+            </div>
+          </nav>
+        </div>
+      )}
 
       {/* Hero — focused, clear hierarchy, single CTA emphasis */}
       <section ref={heroRef} className="flex flex-col items-center justify-center px-4 sm:px-6 text-center max-w-3xl mx-auto py-16 sm:py-24">
