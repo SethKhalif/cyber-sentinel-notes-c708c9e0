@@ -13,9 +13,11 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Shield, ArrowLeft, Search, Trash2, Mail, RefreshCw, Inbox } from "lucide-react";
+import { Shield, ArrowLeft, Search, Trash2, Mail, RefreshCw, Inbox, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
+
+const PAGE_SIZE = 10;
 
 interface ContactMessage {
   id: string;
@@ -32,6 +34,8 @@ const Admin = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(0);
 
   // Check admin role
   useEffect(() => {
@@ -45,21 +49,25 @@ const Admin = () => {
   // Fetch messages
   const fetchMessages = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const from = page * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    const { data, error, count } = await supabase
       .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
     if (error) {
       toast.error("Failed to load messages");
     } else {
       setMessages(data || []);
+      setTotalCount(count ?? 0);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     if (isAdmin) fetchMessages();
-  }, [isAdmin]);
+  }, [isAdmin, page]);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("contact_messages").delete().eq("id", id);
@@ -77,6 +85,8 @@ const Admin = () => {
       m.email.toLowerCase().includes(search.toLowerCase()) ||
       m.message.toLowerCase().includes(search.toLowerCase())
   );
+
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
   if (isAdmin === null) {
     return (
@@ -125,7 +135,7 @@ const Admin = () => {
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Messages</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-foreground">{messages.length}</p>
+              <p className="text-3xl font-bold text-foreground">{totalCount}</p>
             </CardContent>
           </Card>
           <Card>
@@ -232,6 +242,35 @@ const Admin = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">
+              Page {page + 1} of {totalPages} ({totalCount} messages)
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="min-h-[44px]"
+                disabled={page === 0}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="min-h-[44px]"
+                disabled={page >= totalPages - 1}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
