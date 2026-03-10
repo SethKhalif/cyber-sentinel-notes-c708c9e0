@@ -168,7 +168,7 @@ const Landing = () => {
       </section>
 
       {/* Testimonials — cleaner cards */}
-      <section id="testimonials" className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
+      <section id="testimonials" ref={testimonialsRef} className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-sans text-2xl sm:text-3xl font-bold text-foreground mb-3">Trusted by Security Teams</h2>
