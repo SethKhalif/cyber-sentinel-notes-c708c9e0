@@ -73,8 +73,30 @@ const Landing = () => {
   const policyRef = useScrollReveal();
   const ctaRef = useScrollReveal();
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const contactSchema = z.object({
+    name: z.string().trim().min(1, "Name is required").max(100),
+    email: z.string().trim().email("Invalid email").max(255),
+    message: z.string().trim().min(1, "Message is required").max(2000),
+  });
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const parsed = contactSchema.safeParse({ name: contactName, email: contactEmail, message: contactMessage });
+    if (!parsed.success) {
+      toast.error(parsed.error.errors[0].message);
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      message: parsed.data.message,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Failed to send message. Please try again.");
+      return;
+    }
     toast.success("Message sent! We'll get back to you soon.");
     setContactName("");
     setContactEmail("");
