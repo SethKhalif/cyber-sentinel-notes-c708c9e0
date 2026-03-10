@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut,
+  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut, CreditCard,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
