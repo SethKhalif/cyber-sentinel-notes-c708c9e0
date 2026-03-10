@@ -43,10 +43,12 @@ const NavigationColumn: React.FC<Props> = ({
             <Shield className="h-5 w-5 text-primary" />
             <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
           </div>
-          <NotificationBell />
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={toggleTheme} title="Toggle theme">
-            {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-          </Button>
+          <div className="flex items-center gap-1">
+            <NotificationBell />
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={toggleTheme} title="Toggle theme">
+              {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+            </Button>
+          </div>
         </div>
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
