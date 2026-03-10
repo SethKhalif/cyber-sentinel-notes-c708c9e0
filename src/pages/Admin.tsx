@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Shield, ArrowLeft, Search, Trash2, Mail, RefreshCw, Inbox, ChevronLeft, ChevronRight } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 
@@ -122,9 +123,12 @@ const Admin = () => {
             <span className="font-sans font-bold text-foreground">Admin Dashboard</span>
           </div>
         </div>
-        <Button variant="outline" size="sm" className="min-h-[44px]" onClick={fetchMessages}>
-          <RefreshCw className="h-4 w-4 mr-2" /> Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <NotificationBell />
+          <Button variant="outline" size="sm" className="min-h-[44px]" onClick={fetchMessages}>
+            <RefreshCw className="h-4 w-4 mr-2" /> Refresh
+          </Button>
+        </div>
       </header>
 
       <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
