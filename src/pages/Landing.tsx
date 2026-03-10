@@ -31,10 +31,42 @@ const TEAM = [
   { name: "Daniel Reeves", role: "Head of AI", desc: "ML researcher specializing in NLP for security applications." },
 ];
 
+function useScrollReveal(): RefObject<HTMLDivElement | null> {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(24px)";
+    el.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
 const Landing = () => {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
+
+  const heroRef = useScrollReveal();
+  const featuresRef = useScrollReveal();
+  const testimonialsRef = useScrollReveal();
+  const aboutRef = useScrollReveal();
+  const contactRef = useScrollReveal();
+  const policyRef = useScrollReveal();
+  const ctaRef = useScrollReveal();
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
