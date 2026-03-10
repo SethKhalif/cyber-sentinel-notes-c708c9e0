@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNotes, Note } from "@/hooks/useNotes";
 import { useThreatAnalysis, ThreatAnalysis } from "@/hooks/useThreatAnalysis";
 import { useSubscription } from "@/contexts/SubscriptionContext";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { PLANS } from "@/lib/plans";
 import NavigationColumn from "@/components/workspace/NavigationColumn";
 import EditorColumn from "@/components/workspace/EditorColumn";
@@ -18,6 +19,13 @@ const Workspace = () => {
   const [currentAnalysis, setCurrentAnalysis] = useState<ThreatAnalysis | null>(null);
   const [mode, setMode] = useState<"notes" | "cve">("notes");
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useKeyboardShortcuts({
+    onCreateNote: () => handleCreateNote(),
+    onToggleMode: () => setMode((m) => (m === "notes" ? "cve" : "notes")),
+    onSearch: () => searchInputRef.current?.focus(),
+  });
 
   const selectedNote = notes.find((n) => n.id === selectedNoteId) ?? null;
 
@@ -96,6 +104,7 @@ const Workspace = () => {
         isLoading={isLoading}
         mode={mode}
         onModeChange={setMode}
+        searchInputRef={searchInputRef}
       />
       <EditorColumn
         note={selectedNote}

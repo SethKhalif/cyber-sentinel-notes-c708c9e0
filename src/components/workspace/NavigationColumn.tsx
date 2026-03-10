@@ -22,11 +22,12 @@ interface Props {
   isLoading: boolean;
   mode: "notes" | "cve";
   onModeChange: (m: "notes" | "cve") => void;
+  searchInputRef?: React.RefObject<HTMLInputElement>;
 }
 
 const NavigationColumn: React.FC<Props> = ({
   notes, selectedNoteId, onSelectNote, onCreateNote, onDeleteNote,
-  searchQuery, onSearchChange, isLoading, mode, onModeChange,
+  searchQuery, onSearchChange, isLoading, mode, onModeChange, searchInputRef,
 }) => {
   const { signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -48,9 +49,10 @@ const NavigationColumn: React.FC<Props> = ({
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
           <Input
+            ref={searchInputRef}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search notes..."
+            placeholder="Search notes... (⌘K)"
             className="pl-8 h-8 text-xs bg-muted border-none"
           />
         </div>
