@@ -135,6 +135,8 @@ const NavigationColumn: React.FC<Props> = ({
         </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
           <Link to="/admin"><Shield className="h-3 w-3 mr-2" /> Admin</Link>
+        </Button>
+        <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" onClick={signOut}>
           <LogOut className="h-3 w-3 mr-2" /> Sign Out
         </Button>
       </div>
