@@ -39,7 +39,14 @@ const Workspace = () => {
     }
   }, [selectedNoteId]);
 
+  const { plan } = useSubscription();
+  const currentPlan = PLANS[plan];
+
   const handleCreateNote = async () => {
+    if (notes.length >= currentPlan.notesLimit) {
+      toast.error(`Free plan limited to ${currentPlan.notesLimit} notes. Upgrade to Pro for unlimited notes.`);
+      return;
+    }
     const note = await createNote.mutateAsync();
     setSelectedNoteId(note.id);
     setMode("notes");
