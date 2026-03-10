@@ -194,7 +194,7 @@ const Landing = () => {
       </section>
 
       {/* About Us */}
-      <section id="about" className="px-4 sm:px-6 py-16 sm:py-20">
+      <section id="about" ref={aboutRef} className="px-4 sm:px-6 py-16 sm:py-20">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
             <div>
