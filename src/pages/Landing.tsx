@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight } from "lucide-react";
+import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
