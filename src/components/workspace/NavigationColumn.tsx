@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut,
+  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut, CreditCard,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
@@ -117,6 +117,9 @@ const NavigationColumn: React.FC<Props> = ({
         </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
           <Link to="/settings"><Settings className="h-3 w-3 mr-2" /> Settings</Link>
+        </Button>
+        <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
+          <Link to="/billing"><CreditCard className="h-3 w-3 mr-2" /> Billing</Link>
         </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7 text-muted-foreground" onClick={() => { signOut(); navigate("/"); }}>
           <LogOut className="h-3 w-3 mr-2" /> Sign Out

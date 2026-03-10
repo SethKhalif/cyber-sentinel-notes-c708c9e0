@@ -2,9 +2,12 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNotes, Note } from "@/hooks/useNotes";
 import { useThreatAnalysis, ThreatAnalysis } from "@/hooks/useThreatAnalysis";
+import { useSubscription } from "@/contexts/SubscriptionContext";
+import { PLANS } from "@/lib/plans";
 import NavigationColumn from "@/components/workspace/NavigationColumn";
 import EditorColumn from "@/components/workspace/EditorColumn";
 import IntelligencePanel from "@/components/workspace/IntelligencePanel";
+import { toast } from "sonner";
 
 const Workspace = () => {
   const { user } = useAuth();
@@ -34,7 +37,14 @@ const Workspace = () => {
     }
   }, [selectedNoteId]);
 
+  const { plan } = useSubscription();
+  const currentPlan = PLANS[plan];
+
   const handleCreateNote = async () => {
+    if (notes.length >= currentPlan.notesLimit) {
+      toast.error(`Free plan limited to ${currentPlan.notesLimit} notes. Upgrade to Pro for unlimited notes.`);
+      return;
+    }
     const note = await createNote.mutateAsync();
     setSelectedNoteId(note.id);
     setMode("notes");
