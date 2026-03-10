@@ -327,7 +327,7 @@ const Landing = () => {
       </section>
 
       {/* CTA Banner */}
-      <section className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
+      <section ref={ctaRef} className="px-4 sm:px-6 py-16 sm:py-20 bg-card/50">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-sans text-2xl sm:text-3xl font-bold text-foreground mb-4">
             Ready to accelerate your threat intelligence?
