@@ -64,7 +64,7 @@ const Billing = () => {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link to="/settings"><ArrowLeft className="h-4 w-4" /></Link>
+            <Link to="/overview"><ArrowLeft className="h-4 w-4" /></Link>
           </Button>
           <div className="flex items-center gap-2">
             <CreditCard className="h-6 w-6 text-primary" />

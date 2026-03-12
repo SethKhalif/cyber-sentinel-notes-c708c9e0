@@ -348,9 +348,9 @@ const Landing = () => {
             </div>
             <div className="md:col-span-2 space-y-5 text-sm">
               {[
-                { icon: Mail, title: "Email", detail: "support@vistahand.ai" },
-                { icon: MapPin, title: "Office", detail: "San Francisco, CA" },
-                { icon: Users, title: "Enterprise", detail: "enterprise@vistahand.ai" },
+                { icon: Mail, title: "Email", detail: "support@vistahand.com" },
+                { icon: MapPin, title: "Office", detail: "Dublin, Ireland" },
+                { icon: Users, title: "Phone", detail: "+353 85 824 5872" },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors">
                   <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
