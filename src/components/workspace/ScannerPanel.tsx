@@ -226,8 +226,19 @@ const ScannerPanel: React.FC = () => {
             </>
           )}
 
-          {/* Results */}
-          {result && <ScanResultCard result={result} />}
+          {result && (
+            <>
+              <ScanResultCard result={result} />
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full h-10"
+                onClick={() => exportScanAsPdf(result)}
+              >
+                <Download className="h-4 w-4 mr-2" /> Download Full Report (PDF)
+              </Button>
+            </>
+          )}
         </div>
       </ScrollArea>
     </div>
