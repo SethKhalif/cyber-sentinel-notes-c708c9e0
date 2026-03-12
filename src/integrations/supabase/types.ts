@@ -190,6 +190,51 @@ export type Database = {
         }
         Relationships: []
       }
+      scan_results: {
+        Row: {
+          attack_type: string | null
+          created_at: string
+          id: string
+          malicious_indicators: Json | null
+          mitigation: string | null
+          mitre_mapping: string | null
+          probability: number | null
+          raw_content_preview: string | null
+          scan_type: string
+          source: string
+          threat_level: string
+          user_id: string
+        }
+        Insert: {
+          attack_type?: string | null
+          created_at?: string
+          id?: string
+          malicious_indicators?: Json | null
+          mitigation?: string | null
+          mitre_mapping?: string | null
+          probability?: number | null
+          raw_content_preview?: string | null
+          scan_type?: string
+          source: string
+          threat_level?: string
+          user_id: string
+        }
+        Update: {
+          attack_type?: string | null
+          created_at?: string
+          id?: string
+          malicious_indicators?: Json | null
+          mitigation?: string | null
+          mitre_mapping?: string | null
+          probability?: number | null
+          raw_content_preview?: string | null
+          scan_type?: string
+          source?: string
+          threat_level?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       shared_notes: {
         Row: {
           created_at: string
