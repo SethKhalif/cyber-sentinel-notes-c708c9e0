@@ -103,6 +103,7 @@ const ScannerPanel: React.FC = () => {
     { key: "url" as const, icon: Globe, label: "Website" },
     { key: "file" as const, icon: FileUp, label: "File / Image" },
     { key: "barcode" as const, icon: ScanBarcode, label: "Barcode" },
+    { key: "history" as const, icon: History, label: "History" },
   ];
 
   return (
