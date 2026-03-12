@@ -3,8 +3,9 @@ import { ThreatAnalysis } from "@/hooks/useThreatAnalysis";
 import { useCveAnalysis, CveResult } from "@/hooks/useCveAnalysis";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
-import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench, Download, FileText } from "lucide-react";
+import { Shield, AlertTriangle, Target, Percent, BookOpen, Wrench, Download, FileText, BadgeAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ListView, ListItem } from "@/components/ListView";
 import { exportCveAsMarkdown, exportCveAsPdf } from "@/lib/exportCve";
 
 interface Props {
@@ -31,7 +32,7 @@ const IntelligencePanel: React.FC<Props> = ({ analysis, analyzing, mode, noteId 
       .from("cve_analyses")
       .select("*")
       .order("created_at", { ascending: false })
-      .limit(5)
+      .limit(10)
       .then(({ data }) => {
         if (data) {
           setCveResults(
@@ -55,38 +56,38 @@ const IntelligencePanel: React.FC<Props> = ({ analysis, analyzing, mode, noteId 
   }, [mode, analyzing]);
 
   if (mode === "cve") {
+    const cveListItems: ListItem[] = cveResults.map((cve, i) => ({
+      id: `cve-${i}`,
+      title: cve.cve_id,
+      subtitle: cve.exploitation_likelihood,
+      badge: cve.exploitation_likelihood,
+      previewText: cve.summary,
+      status: cve.exploitation_likelihood === "High" || cve.exploitation_likelihood === "Critical" ? "error" : "info",
+      actions: [
+        {
+          label: "Export as Markdown",
+          icon: <FileText className="h-3 w-3" />,
+          onClick: () => exportCveAsMarkdown(cve),
+        },
+        {
+          label: "Export as PDF",
+          icon: <Download className="h-3 w-3" />,
+          onClick: () => exportCveAsPdf(cve),
+        },
+      ],
+    }));
+
     return (
       <div className="w-[360px] min-w-[360px] border-l border-border flex flex-col bg-background">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-sans font-semibold text-sm text-foreground">CVE Intelligence</h2>
+        <div className="p-4 border-b border-border flex items-center gap-2">
+          <BadgeAlert className="h-4 w-4 text-primary" />
+          <h2 className="font-sans font-semibold text-sm text-foreground">CVE Intelligence List</h2>
         </div>
-        <div className="flex-1 overflow-auto p-4 space-y-4">
-          {cveResults.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No CVE analyses yet. Use the editor to analyze a CVE.</p>
-          ) : (
-            cveResults.map((cve, i) => (
-              <div key={i} className="border border-border rounded p-3 space-y-2">
-                <div className="flex items-center justify-between">
-                  <p className="font-mono text-xs font-bold text-primary">{cve.cve_id}</p>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="Export as Markdown" onClick={() => exportCveAsMarkdown(cve)}>
-                      <FileText className="h-3 w-3" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" title="Export as PDF" onClick={() => exportCveAsPdf(cve)}>
-                      <Download className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </div>
-                <p className="text-xs text-foreground">{cve.summary}</p>
-                <div className="space-y-1 text-[10px]">
-                  <p><span className="text-muted-foreground">Exploitation:</span> {cve.exploitation_likelihood}</p>
-                  <p><span className="text-muted-foreground">Systems:</span> {cve.affected_systems}</p>
-                  <p><span className="text-muted-foreground">Mitigation:</span> {cve.mitigation}</p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <ListView 
+          items={cveListItems} 
+          emptyMessage="No CVE analyses yet. Use the editor to analyze a CVE."
+          compact
+        />
       </div>
     );
   }

@@ -1,0 +1,17 @@
+# Development Dockerfile for Backend
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Expose backend port
+EXPOSE 3001
+
+# Run development server with watch mode
+CMD ["npm", "run", "dev"]

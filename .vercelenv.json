@@ -1,0 +1,24 @@
+{
+  "build": {
+    "env": {
+      "VITE_SUPABASE_URL": "@vite_supabase_url",
+      "VITE_SUPABASE_ANON_KEY": "@vite_supabase_anon_key",
+      "VITE_API_URL": "@vite_api_url",
+      "VITE_STRIPE_PUBLISHABLE_KEY": "@vite_stripe_publishable_key"
+    }
+  },
+  "env": {
+    "VITE_SUPABASE_URL": {
+      "description": "Supabase project URL"
+    },
+    "VITE_SUPABASE_ANON_KEY": {
+      "description": "Supabase anonymous key"
+    },
+    "VITE_API_URL": {
+      "description": "Backend API URL"
+    },
+    "VITE_STRIPE_PUBLISHABLE_KEY": {
+      "description": "Stripe publishable key"
+    }
+  }
+}
