@@ -8,8 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import {
   Globe, Upload, Camera, ScanBarcode, Loader2, Shield, ShieldCheck, ShieldAlert, ShieldX,
   AlertTriangle, Target, BookOpen, Wrench, XCircle, FileUp, CheckCircle2,
-  Info, ChevronDown, ChevronUp,
+  Info, ChevronDown, ChevronUp, Download,
 } from "lucide-react";
+import { exportScanAsPdf } from "@/lib/exportScan";
 
 /* ─── Helpers ─── */
 
