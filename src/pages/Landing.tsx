@@ -418,8 +418,8 @@ const Landing = () => {
       <footer className="border-t border-border px-4 sm:px-6 py-8">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 min-h-[44px]">
-            <Shield className="h-4 w-4 text-primary" />
-            <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
+            <img src={vistahandLogo} alt="VistaHand" className="h-4 w-4 rounded" />
+            <span className="font-sans font-bold text-sm text-foreground">VistaHand</span>
           </Link>
           <nav className="flex items-center gap-1 text-sm text-muted-foreground">
             {[
