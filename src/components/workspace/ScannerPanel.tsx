@@ -41,6 +41,8 @@ function getRiskColor(probability: number): string {
 
 const ScannerPanel: React.FC = () => {
   const { scanUrl, scanFile, scanImage, scanBarcode, scanning, result, clearResult } = useResourceScanner();
+  const { history, loading: historyLoading, refresh: refreshHistory, deleteItem } = useScanHistory();
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<ScanHistoryItem | null>(null);
   const [urlInput, setUrlInput] = useState("");
   const [activeTab, setActiveTab] = useState<"url" | "file" | "barcode">("url");
   const [barcodeInput, setBarcodeInput] = useState("");
