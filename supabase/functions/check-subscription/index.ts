@@ -77,7 +77,7 @@ serve(async (req) => {
     await supabaseClient
       .from("subscriptions")
       .update({ plan, status: "active", stripe_customer_id: customerId, renewal_date: subscriptionEnd })
-      .eq("user_id", user.id);
+      .eq("user_id", userId);
 
     return new Response(JSON.stringify({
       subscribed: true,
