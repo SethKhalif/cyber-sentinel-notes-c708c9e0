@@ -10,7 +10,7 @@ import { X, Plus, Bug, Loader2 } from "lucide-react";
 interface Props {
   note: Note | null;
   onUpdate: (id: string, updates: Partial<Note>) => void;
-  mode: "notes" | "cve";
+  mode: "notes" | "cve" | "scanner";
 }
 
 const EditorColumn: React.FC<Props> = ({ note, onUpdate, mode }) => {

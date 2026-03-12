@@ -10,7 +10,7 @@ import { exportCveAsMarkdown, exportCveAsPdf } from "@/lib/exportCve";
 interface Props {
   analysis: ThreatAnalysis | null;
   analyzing: boolean;
-  mode: "notes" | "cve";
+  mode: "notes" | "cve" | "scanner";
   noteId: string | null;
 }
 
