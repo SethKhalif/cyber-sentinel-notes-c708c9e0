@@ -223,7 +223,7 @@ const Landing = () => {
         {/* Features — 3 cards, generous tap area */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-16 w-full">
           {[
-            { icon: Shield, title: "Threat Analysis", desc: "Auto-analyze notes for threat level, attack type, and MITRE ATT&CK mapping." },
+            { icon: ScanSearch, title: "Threat Scanner", desc: "Scan URLs, files, images & barcodes for threats with MITRE ATT&CK mapping." },
             { icon: Lock, title: "Secure Notes", desc: "Encrypted, role-isolated notes with RLS. Your intelligence stays yours." },
             { icon: Zap, title: "CVE Intelligence", desc: "Paste CVE data and get exploitation likelihood, affected systems, and patch guidance." },
           ].map((f) => (
