@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useResourceScanner, ScanResult } from "@/hooks/useResourceScanner";
+import { useScanHistory, ScanHistoryItem } from "@/hooks/useScanHistory";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -8,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Globe, Upload, Camera, ScanBarcode, Loader2, Shield, ShieldCheck, ShieldAlert, ShieldX,
   AlertTriangle, Target, BookOpen, Wrench, XCircle, FileUp, CheckCircle2,
-  Info, ChevronDown, ChevronUp, Download,
+  Info, ChevronDown, ChevronUp, Download, History, Trash2, Clock,
 } from "lucide-react";
 import { exportScanAsPdf } from "@/lib/exportScan";
 
