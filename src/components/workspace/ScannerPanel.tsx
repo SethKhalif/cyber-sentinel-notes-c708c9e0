@@ -97,6 +97,11 @@ const ScannerPanel: React.FC = () => {
     return () => { running = false; clearTimeout(t); };
   }, [cameraActive, stopCamera, scanBarcode]);
 
+  // Refresh history when a new scan completes
+  useEffect(() => {
+    if (result) refreshHistory();
+  }, [result, refreshHistory]);
+
   useEffect(() => () => stopCamera(), [stopCamera]);
 
   const tabs = [
