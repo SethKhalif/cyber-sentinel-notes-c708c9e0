@@ -108,8 +108,8 @@ const Landing = () => {
       {/* Nav — larger touch targets */}
       <header className="border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-50">
         <Link to="/" className="flex items-center gap-2 min-h-[44px] min-w-[44px]">
-          <Shield className="h-7 w-7 text-primary" />
-          <span className="font-sans font-bold text-lg text-foreground">Vistahand AI</span>
+          <img src={vistahandLogo} alt="VistaHand" className="h-7 w-7 rounded" />
+          <span className="font-sans font-bold text-lg text-foreground">VistaHand</span>
         </Link>
 
         {/* Desktop nav */}
