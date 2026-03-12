@@ -8,8 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import {
   Globe, Upload, Camera, ScanBarcode, Loader2, Shield, ShieldCheck, ShieldAlert, ShieldX,
   AlertTriangle, Target, BookOpen, Wrench, XCircle, FileUp, CheckCircle2,
-  Info, ChevronDown, ChevronUp,
+  Info, ChevronDown, ChevronUp, Download,
 } from "lucide-react";
+import { exportScanAsPdf } from "@/lib/exportScan";
 
 /* ─── Helpers ─── */
 
@@ -225,8 +226,19 @@ const ScannerPanel: React.FC = () => {
             </>
           )}
 
-          {/* Results */}
-          {result && <ScanResultCard result={result} />}
+          {result && (
+            <>
+              <ScanResultCard result={result} />
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full h-10"
+                onClick={() => exportScanAsPdf(result)}
+              >
+                <Download className="h-4 w-4 mr-2" /> Download Full Report (PDF)
+              </Button>
+            </>
+          )}
         </div>
       </ScrollArea>
     </div>
