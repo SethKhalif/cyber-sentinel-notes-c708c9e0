@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X } from "lucide-react";
+import { Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X, ScanSearch } from "lucide-react";
+import vistahandLogo from "@/assets/vistahand-logo.jpeg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -107,8 +108,8 @@ const Landing = () => {
       {/* Nav — larger touch targets */}
       <header className="border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 bg-background/95 backdrop-blur-sm z-50">
         <Link to="/" className="flex items-center gap-2 min-h-[44px] min-w-[44px]">
-          <Shield className="h-7 w-7 text-primary" />
-          <span className="font-sans font-bold text-lg text-foreground">Vistahand AI</span>
+          <img src={vistahandLogo} alt="VistaHand" className="h-7 w-7 rounded" />
+          <span className="font-sans font-bold text-lg text-foreground">VistaHand</span>
         </Link>
 
         {/* Desktop nav */}
@@ -222,7 +223,7 @@ const Landing = () => {
         {/* Features — 3 cards, generous tap area */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-16 w-full">
           {[
-            { icon: Shield, title: "Threat Analysis", desc: "Auto-analyze notes for threat level, attack type, and MITRE ATT&CK mapping." },
+            { icon: ScanSearch, title: "Threat Scanner", desc: "Scan URLs, files, images & barcodes for threats with MITRE ATT&CK mapping." },
             { icon: Lock, title: "Secure Notes", desc: "Encrypted, role-isolated notes with RLS. Your intelligence stays yours." },
             { icon: Zap, title: "CVE Intelligence", desc: "Paste CVE data and get exploitation likelihood, affected systems, and patch guidance." },
           ].map((f) => (
@@ -349,7 +350,7 @@ const Landing = () => {
               {[
                 { icon: Mail, title: "Email", detail: "support@vistahand.ai" },
                 { icon: MapPin, title: "Office", detail: "San Francisco, CA" },
-                { icon: Shield, title: "Enterprise", detail: "enterprise@vistahand.ai" },
+                { icon: Users, title: "Enterprise", detail: "enterprise@vistahand.ai" },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors">
                   <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -417,8 +418,8 @@ const Landing = () => {
       <footer className="border-t border-border px-4 sm:px-6 py-8">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 min-h-[44px]">
-            <Shield className="h-4 w-4 text-primary" />
-            <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
+            <img src={vistahandLogo} alt="VistaHand" className="h-4 w-4 rounded" />
+            <span className="font-sans font-bold text-sm text-foreground">VistaHand</span>
           </Link>
           <nav className="flex items-center gap-1 text-sm text-muted-foreground">
             {[

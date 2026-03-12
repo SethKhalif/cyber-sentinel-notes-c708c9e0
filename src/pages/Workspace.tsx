@@ -8,7 +8,10 @@ import { PLANS } from "@/lib/plans";
 import NavigationColumn from "@/components/workspace/NavigationColumn";
 import EditorColumn from "@/components/workspace/EditorColumn";
 import IntelligencePanel from "@/components/workspace/IntelligencePanel";
+import ScannerPanel from "@/components/workspace/ScannerPanel";
 import { toast } from "sonner";
+
+export type WorkspaceMode = "notes" | "cve" | "scanner";
 
 const Workspace = () => {
   const { user } = useAuth();
@@ -17,26 +20,24 @@ const Workspace = () => {
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentAnalysis, setCurrentAnalysis] = useState<ThreatAnalysis | null>(null);
-  const [mode, setMode] = useState<"notes" | "cve">("notes");
+  const [mode, setMode] = useState<WorkspaceMode>("notes");
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useKeyboardShortcuts({
     onCreateNote: () => handleCreateNote(),
-    onToggleMode: () => setMode((m) => (m === "notes" ? "cve" : "notes")),
+    onToggleMode: () => setMode((m) => (m === "notes" ? "cve" : m === "cve" ? "scanner" : "notes")),
     onSearch: () => searchInputRef.current?.focus(),
   });
 
   const selectedNote = notes.find((n) => n.id === selectedNoteId) ?? null;
 
-  // Auto-select first note
   useEffect(() => {
     if (!selectedNoteId && notes.length > 0) {
       setSelectedNoteId(notes[0].id);
     }
   }, [notes, selectedNoteId]);
 
-  // Load analysis when note is selected
   useEffect(() => {
     if (selectedNoteId) {
       getAnalysis(selectedNoteId).then(setCurrentAnalysis);
@@ -61,8 +62,6 @@ const Workspace = () => {
   const handleUpdateNote = useCallback(
     (id: string, updates: Partial<Note>) => {
       updateNote.mutate({ id, ...updates });
-
-      // Debounced AI analysis on content change
       if (updates.content !== undefined) {
         if (debounceRef.current) clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(async () => {
@@ -106,17 +105,23 @@ const Workspace = () => {
         onModeChange={setMode}
         searchInputRef={searchInputRef}
       />
-      <EditorColumn
-        note={selectedNote}
-        onUpdate={handleUpdateNote}
-        mode={mode}
-      />
-      <IntelligencePanel
-        analysis={currentAnalysis}
-        analyzing={analyzing}
-        mode={mode}
-        noteId={selectedNoteId}
-      />
+      {mode === "scanner" ? (
+        <ScannerPanel />
+      ) : (
+        <EditorColumn
+          note={selectedNote}
+          onUpdate={handleUpdateNote}
+          mode={mode}
+        />
+      )}
+      {mode !== "scanner" && (
+        <IntelligencePanel
+          analysis={currentAnalysis}
+          analyzing={analyzing}
+          mode={mode}
+          noteId={selectedNoteId}
+        />
+      )}
     </div>
   );
 };
