@@ -44,7 +44,7 @@ const ScannerPanel: React.FC = () => {
   const { history, loading: historyLoading, refresh: refreshHistory, deleteItem } = useScanHistory();
   const [selectedHistoryItem, setSelectedHistoryItem] = useState<ScanHistoryItem | null>(null);
   const [urlInput, setUrlInput] = useState("");
-  const [activeTab, setActiveTab] = useState<"url" | "file" | "barcode">("url");
+  const [activeTab, setActiveTab] = useState<"url" | "file" | "barcode" | "history">("url");
   const [barcodeInput, setBarcodeInput] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
