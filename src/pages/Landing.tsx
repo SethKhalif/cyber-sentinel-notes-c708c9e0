@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X } from "lucide-react";
+import { Zap, Lock, ArrowRight, Quote, Users, FileText, Mail, Send, MapPin, ChevronRight, Menu, X, ScanSearch } from "lucide-react";
+import vistahandLogo from "@/assets/vistahand-logo.jpeg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

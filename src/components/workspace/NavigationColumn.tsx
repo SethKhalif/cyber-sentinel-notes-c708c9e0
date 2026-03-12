@@ -8,9 +8,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Plus, Search, FileText, Trash2, BarChart3, Settings, Shield, Bug, LogOut, CreditCard, Users, Sun, Moon,
+  Plus, Search, FileText, Trash2, BarChart3, Settings, Bug, LogOut, CreditCard, Users, Sun, Moon, ScanSearch,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import type { WorkspaceMode } from "@/pages/Workspace";
+import vistahandLogo from "@/assets/vistahand-logo.jpeg";
 
 interface Props {
   notes: Note[];
@@ -21,8 +23,8 @@ interface Props {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   isLoading: boolean;
-  mode: "notes" | "cve";
-  onModeChange: (m: "notes" | "cve") => void;
+  mode: WorkspaceMode;
+  onModeChange: (m: WorkspaceMode) => void;
   searchInputRef?: React.RefObject<HTMLInputElement>;
 }
 
@@ -40,8 +42,8 @@ const NavigationColumn: React.FC<Props> = ({
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <span className="font-sans font-bold text-sm text-foreground">Vistahand AI</span>
+            <img src={vistahandLogo} alt="VistaHand" className="h-6 w-6 rounded" />
+            <span className="font-sans font-bold text-sm text-foreground">VistaHand</span>
           </div>
           <div className="flex items-center gap-1">
             <NotificationBell />
@@ -80,6 +82,14 @@ const NavigationColumn: React.FC<Props> = ({
         >
           <Bug className="h-3 w-3 mr-1" /> CVE
         </Button>
+        <Button
+          variant={mode === "scanner" ? "secondary" : "ghost"}
+          size="sm"
+          className="flex-1 text-xs h-7"
+          onClick={() => onModeChange("scanner")}
+        >
+          <ScanSearch className="h-3 w-3 mr-1" /> Scan
+        </Button>
       </div>
 
       {/* New Note */}
@@ -114,7 +124,7 @@ const NavigationColumn: React.FC<Props> = ({
               </div>
               <button
                 onClick={(e) => { e.stopPropagation(); onDeleteNote(note.id); }}
-                className="opacity-0 group-hover:opacity-100 ml-1 text-muted-foreground hover:text-alert transition-opacity"
+                className="opacity-0 group-hover:opacity-100 ml-1 text-muted-foreground hover:text-destructive transition-opacity"
               >
                 <Trash2 className="h-3 w-3" />
               </button>
@@ -136,9 +146,6 @@ const NavigationColumn: React.FC<Props> = ({
         </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
           <Link to="/billing"><CreditCard className="h-3 w-3 mr-2" /> Billing</Link>
-        </Button>
-        <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" asChild>
-          <Link to="/admin"><Shield className="h-3 w-3 mr-2" /> Admin</Link>
         </Button>
         <Button variant="ghost" size="sm" className="w-full justify-start text-xs h-7" onClick={signOut}>
           <LogOut className="h-3 w-3 mr-2" /> Sign Out
