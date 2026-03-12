@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useResourceScanner, ScanResult } from "@/hooks/useResourceScanner";
+import { useScanHistory, ScanHistoryItem } from "@/hooks/useScanHistory";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -8,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Globe, Upload, Camera, ScanBarcode, Loader2, Shield, ShieldCheck, ShieldAlert, ShieldX,
   AlertTriangle, Target, BookOpen, Wrench, XCircle, FileUp, CheckCircle2,
-  Info, ChevronDown, ChevronUp, Download,
+  Info, ChevronDown, ChevronUp, Download, History, Trash2, Clock,
 } from "lucide-react";
 import { exportScanAsPdf } from "@/lib/exportScan";
 
@@ -40,8 +41,10 @@ function getRiskColor(probability: number): string {
 
 const ScannerPanel: React.FC = () => {
   const { scanUrl, scanFile, scanImage, scanBarcode, scanning, result, clearResult } = useResourceScanner();
+  const { history, loading: historyLoading, refresh: refreshHistory, deleteItem } = useScanHistory();
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<ScanHistoryItem | null>(null);
   const [urlInput, setUrlInput] = useState("");
-  const [activeTab, setActiveTab] = useState<"url" | "file" | "barcode">("url");
+  const [activeTab, setActiveTab] = useState<"url" | "file" | "barcode" | "history">("url");
   const [barcodeInput, setBarcodeInput] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -94,12 +97,18 @@ const ScannerPanel: React.FC = () => {
     return () => { running = false; clearTimeout(t); };
   }, [cameraActive, stopCamera, scanBarcode]);
 
+  // Refresh history when a new scan completes
+  useEffect(() => {
+    if (result) refreshHistory();
+  }, [result, refreshHistory]);
+
   useEffect(() => () => stopCamera(), [stopCamera]);
 
   const tabs = [
     { key: "url" as const, icon: Globe, label: "Website" },
     { key: "file" as const, icon: FileUp, label: "File / Image" },
     { key: "barcode" as const, icon: ScanBarcode, label: "Barcode" },
+    { key: "history" as const, icon: History, label: "History" },
   ];
 
   return (
@@ -238,6 +247,106 @@ const ScannerPanel: React.FC = () => {
                 <Download className="h-4 w-4 mr-2" /> Download Full Report (PDF)
               </Button>
             </>
+          )}
+
+          {/* History Tab */}
+          {activeTab === "history" && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-foreground">Past Scans</h3>
+                <Button variant="ghost" size="sm" onClick={refreshHistory} disabled={historyLoading} className="text-xs h-8">
+                  {historyLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : "Refresh"}
+                </Button>
+              </div>
+              {historyLoading && history.length === 0 ? (
+                <div className="flex items-center justify-center py-10 text-muted-foreground text-sm">
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" /> Loading...
+                </div>
+              ) : history.length === 0 ? (
+                <div className="text-center py-10">
+                  <History className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">No scans yet</p>
+                  <p className="text-xs text-muted-foreground mt-1">Run your first scan to see it here</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {history.map((item) => {
+                    const cfg = threatConfig[item.threat_level as keyof typeof threatConfig] || threatConfig.None;
+                    const ItemIcon = cfg.icon;
+                    return (
+                      <div
+                        key={item.id}
+                        className={`rounded-lg border p-3 cursor-pointer transition-colors hover:bg-muted/50 ${
+                          selectedHistoryItem?.id === item.id ? "border-primary bg-primary/5" : "border-border"
+                        }`}
+                        onClick={() => setSelectedHistoryItem(selectedHistoryItem?.id === item.id ? null : item)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`h-8 w-8 rounded-lg ${cfg.bg} flex items-center justify-center shrink-0`}>
+                            <ItemIcon className={`h-4 w-4 ${cfg.color}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-foreground truncate">{item.source}</p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <Badge variant="outline" className="text-[10px] px-1.5 py-0">{item.scan_type}</Badge>
+                              <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                                <Clock className="h-2.5 w-2.5" />
+                                {new Date(item.created_at).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className="text-xs font-mono font-bold text-foreground">{item.probability ?? 0}%</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                              onClick={(e) => { e.stopPropagation(); deleteItem(item.id); if (selectedHistoryItem?.id === item.id) setSelectedHistoryItem(null); }}
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Expanded detail */}
+                        {selectedHistoryItem?.id === item.id && (
+                          <div className="mt-3 pt-3 border-t border-border space-y-3">
+                            <ScanResultCard
+                              result={{
+                                threat_level: item.threat_level,
+                                attack_type: item.attack_type ?? "",
+                                probability: item.probability ?? 0,
+                                mitre_mapping: item.mitre_mapping ?? "",
+                                mitigation: item.mitigation ?? "",
+                                malicious_indicators: (item.malicious_indicators as string[]) ?? [],
+                              }}
+                            />
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-full h-9 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                exportScanAsPdf({
+                                  threat_level: item.threat_level,
+                                  attack_type: item.attack_type ?? "",
+                                  probability: item.probability ?? 0,
+                                  mitre_mapping: item.mitre_mapping ?? "",
+                                  mitigation: item.mitigation ?? "",
+                                  malicious_indicators: (item.malicious_indicators as string[]) ?? [],
+                                });
+                              }}
+                            >
+                              <Download className="h-3.5 w-3.5 mr-1.5" /> Download Report
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </ScrollArea>
