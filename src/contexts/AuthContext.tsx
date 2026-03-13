@@ -37,15 +37,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signUp = async (email: string, password: string, displayName?: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin,
-        data: { display_name: displayName },
-      },
-    });
-    return { error: error as Error | null };
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { display_name: displayName },
+        },
+      });
+      if (error) {
+        console.error("SignUp error:", error);
+      }
+      return { error: error as Error | null };
+    } catch (err) {
+      console.error("SignUp exception:", err);
+      return { error: err as Error };
+    }
   };
 
   const signIn = async (email: string, password: string) => {

@@ -23,13 +23,21 @@ const Signup = () => {
       return;
     }
     setLoading(true);
-    const { error } = await signUp(email, password, displayName);
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Check your email to confirm your account");
-      navigate("/login");
+    try {
+      console.log("Attempting signup with:", email);
+      const { error } = await signUp(email, password, displayName);
+      setLoading(false);
+      if (error) {
+        console.error("Signup error details:", error);
+        toast.error(error.message || "Signup failed");
+      } else {
+        toast.success("Check your email to confirm your account");
+        navigate("/login");
+      }
+    } catch (err) {
+      setLoading(false);
+      console.error("Signup exception:", err);
+      toast.error(err instanceof Error ? err.message : "Signup failed");
     }
   };
 

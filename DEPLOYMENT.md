@@ -76,7 +76,7 @@ nano .env.local
 ```
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_anon_key_here
-VITE_API_URL=http://localhost:3001
+VITE_API_URL=http://localhost:3000
 VITE_STRIPE_PUBLISHABLE_KEY=pk_your_key_here
 ```
 
@@ -93,7 +93,7 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_anon_key_here
 PORT=3001
 NODE_ENV=development
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=http://localhost:3000
 STRIPE_SECRET_KEY=sk_your_key_here
 ```
 
@@ -108,8 +108,8 @@ npm run server:dev
 ```
 
 Your application is now running at:
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:3001
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3000
 
 ---
 
@@ -257,7 +257,7 @@ In your frontend code, ensure API calls use the environment variable:
 
 ```typescript
 // src/lib/api.ts
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export async function apiCall(endpoint: string, options?: RequestInit) {
   const response = await fetch(`${API_URL}/api${endpoint}`, {
